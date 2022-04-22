@@ -1,0 +1,41 @@
+<h1>Job posts</h1>
+<nav class="navbar">
+  <input
+    type="text"
+    class="form-control"
+    name="jobTitle"
+    placeholder="Search"
+    [(ngModel)]="jobTitle"
+    (ngModelChange)="Search()"
+  />
+  <button class="btn btn-primary">Refresh</button>
+</nav>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th (click)="sort('title')">
+        Title at&nbsp; <i class="fa-solid fa-sort"></i>
+      </th>
+      <th>Opens at</th>
+      <th (click)="sort('openAt')">
+        Closes at&nbsp; <i class="fa-solid fa-sort"></i>
+      </th>
+      <th># of interviews</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let job of jobs
+          | orderBy: key:reverse
+          | paginate: { itemsPerPage: 10, currentPage: p }
+      "
+    >
+      <td>{{ job.title }}</td>
+      <td>{{ job.openAt | date: "dd.LL.y" }}</td>
+      <td>{{ job.closeAt | date: "dd.LL.y" }}</td>
+      <td>{{ job.interviewTypes }}</td>
+    </tr>
+  </tbody>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</table>
